@@ -18,7 +18,7 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - name: build image
-      run: docker build . --file Dockerfile -t simpleace/ServerManagerIPMI:latest
+      run: docker build . --file Dockerfile -t simpleace/servermanageripmi:latest
     - name: Push image to Docker Hub
       run:
-        docker push simpleace/ServerManagerIPMI:latest
+        docker push simpleace/servermanageripmi:latest
