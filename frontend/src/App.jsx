@@ -220,17 +220,19 @@ class App extends Component {
 																						vertical
 																						defaultValue={20}
 																						marks={index === fields.length - 1 && sliderMarks} // Show percentage marks on the rightmost slider
-																						// tooltipVisible={true} // Is kinda nice, but cluttered and lags *a lot*
 																					/>
 																				</Form.Item>
 																				<p>{Math.floor((index / (fields.length - 1)) * 100)}°C</p>
 																			</div>
 																		))}
-																		<Form.Item>
-																			<Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
-																				Add point to curve
-																			</Button>
-																		</Form.Item>
+<Form.Item>
+<Button type="dashed" onClick={() => remove(fields[fields.length - 1].name)} icon={<DeleteOutlined />}>
+Remove point from curve
+</Button>
+<Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+Add point to curve
+</Button>
+</Form.Item>
 																	</>
 																)}
 															</Form.List>
@@ -283,7 +285,6 @@ function renderServerOverview(server) {
 										title={sensor?.name}
 										value={sensor?.value}
 										precision={sensor.unit.includes("Amps") ? 2 : 0}
-										// prefix={sensor?.trend > 0 && <ArrowUpOutlined /> || sensor?.trend < 0 && <ArrowDownOutlined />}
 										suffix={
 											<span>
 												{sensor?.unit} {(sensor?.trend > 0 && <ArrowUpOutlined />) || (sensor?.trend < 0 && <ArrowDownOutlined />)}
