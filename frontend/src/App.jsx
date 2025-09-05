@@ -204,7 +204,7 @@ class App extends Component {
 														<Col span={layout.labelCol.span}></Col>
 														<Col span={layout.wrapperCol.span}>
 															<Form.List {...tailLayout} name="fancurve">
-																{(fields, { add }) => (
+																{(fields, { add, remove }) => (
 																	<>
 																		{fields.map((field, index) => (
 																			<div
