@@ -14,7 +14,8 @@
     "react-scripts": "4.0.1",
     "socket.io-client": "^2.4.0",
     "socket.io": "^2.4.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "recharts": "2.8.0"
   },
   "scripts": {
     "start": "npx serve -l 8080 -s ./build",
