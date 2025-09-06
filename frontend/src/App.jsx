@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, useState, useEffect, useCallback } from "react"
 import "antd/dist/antd.dark.css"
 import "./App.css"
 import { getWebclient } from "./api/index"
@@ -6,6 +6,7 @@ import Switch from "./components/Switch"
 import { Layout, Menu, Typography, Card, Row, Col, Statistic, Divider, Tooltip, Tabs, Button, Input, Form, Popover } from "antd"
 import { LaptopOutlined, PlusOutlined, ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined, SaveOutlined, SettingOutlined } from "@ant-design/icons"
 import InlineSlider from "./components/InlineSlider"
+import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line } from 'recharts'
 
 const { TabPane } = Tabs
 const { SubMenu } = Menu
@@ -348,29 +349,94 @@ function renderServerOverview(server) {
 						))}
 				</Row>
 				<Divider orientation="left">Fans</Divider>
-				<Row>
-					{server.sensordata && server.sensordata
-						.filter((x) => ["RPM"].includes(x?.unit))
-						.map((sensor) => (
-							<Tooltip title={`Previous value: ${Math.floor(sensor?.previousValue)}`}>
-								<Col span={4}>
-									<Statistic
-										title={sensor?.name}
-										value={sensor?.value}
-										precision={0}
-										suffix={
-											<span>
-												{sensor?.unit} {(sensor?.trend > 0 && <ArrowUpOutlined />) || (sensor?.trend < 0 && <ArrowDownOutlined />)}
-											</span>
-										}
-										valueStyle={{
-											color: (Number(sensor.value) > Number(sensor.WL) && Number(sensor.value) < Number(server.warnspeed) && " ") /*"#3f8600" green */ || "#cf1322",
-										}}
-									/>
-								</Col>
-							</Tooltip>
-						))}
-				</Row>
+<Row>
+	{server.sensordata && (
+		<>
+			{/* Temperature Chart */}
+			{server.sensordata
+				.filter((x) => x?.unit === "degrees C")
+				.map((sensor) => ({
+					name: sensor?.name,
+					value: Number(sensor?.value),
+					trend: sensor?.trend,
+					WL: sensor?.WL,
+					WH: sensor?.WH,
+					previousValue: sensor?.previousValue,
+				}))
+				.length > 0 && (
+					<LineChart
+						width={200}
+						height={100}
+						data={server.sensordata
+							.filter((x) => x?.unit === "degrees C")
+							.map((sensor) => ({
+								name: sensor?.name,
+								value: Number(sensor?.value),
+								trend: sensor?.trend,
+								WL: sensor?.WL,
+								WH: sensor?.WH,
+								previousValue: sensor?.previousValue,
+							}))
+						}
+						margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+					>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="name" />
+						<YAxis />
+						<Tooltip />
+						<Line
+							type="monotone"
+							dataKey="value"
+							stroke="#8884d8"
+							activeDot={{ r: 8 }}
+						/>
+					</LineChart>
+				)
+			}
+			{/* RPM Chart */}
+			{server.sensordata
+				.filter((x) => x?.unit === "RPM")
+				.map((sensor) => ({
+					name: sensor?.name,
+					value: Number(sensor?.value),
+					trend: sensor?.trend,
+					WL: sensor?.WL,
+					WH: sensor?.WH,
+					previousValue: sensor?.previousValue,
+				}))
+				.length > 0 && (
+					<LineChart
+						width={200}
+						height={100}
+						data={server.sensordata
+							.filter((x) => x?.unit === "RPM")
+							.map((sensor) => ({
+								name: sensor?.name,
+								value: Number(sensor?.value),
+								trend: sensor?.trend,
+								WL: sensor?.WL,
+								WH: sensor?.WH,
+								previousValue: sensor?.previous
+							}))
+						}
+						margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+					>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="name" />
+						<YAxis />
+						<Tooltip />
+						<Line
+							type="monotone"
+							dataKey="value"
+							stroke="#82ca9d"
+							activeDot={{ r: 8 }}
+						/>
+					</LineChart>
+				)
+			}
+		</>
+	)}
+</Row>
 			</Card>
 		)
 	)
