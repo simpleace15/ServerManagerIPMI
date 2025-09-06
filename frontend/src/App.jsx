@@ -6,7 +6,7 @@ import Switch from "./components/Switch"
 import { Layout, Menu, Typography, Card, Row, Col, Statistic, Divider, Tooltip, Tabs, Button, Input, Form, Popover } from "antd"
 import { LaptopOutlined, PlusOutlined, ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined, SaveOutlined, SettingOutlined } from "@ant-design/icons"
 import InlineSlider from "./components/InlineSlider"
-import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line } from 'recharts'
+import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip as RechartsTooltip, Line } from 'recharts'
 
 const { TabPane } = Tabs
 const { SubMenu } = Menu
@@ -383,7 +383,7 @@ function renderServerOverview(server) {
 						<CartesianGrid strokeDasharray="3 3" />
 						<XAxis dataKey="name" />
 						<YAxis />
-						<Tooltip />
+						<RechartsTooltip />
 						<Line
 							type="monotone"
 							dataKey="value"
