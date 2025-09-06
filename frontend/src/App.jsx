@@ -196,6 +196,19 @@ class App extends Component {
 													>
 														<Input />
 													</Form.Item>
+													<Form.Item
+														label="Refresh Interval (default: 60 seconds)"
+														name="refreshInterval"
+														initialValue={60}
+														rules={[
+															{
+																required: true,
+																message: "Please input the refresh interval in seconds",
+															},
+														]}
+													>
+														<Input type="number" min="1" />
+													</Form.Item>
 													<Divider>Custom fan control</Divider>
 													<Form.Item label="Custom fan control" name="manualFanControl">
 														<Switch checkedChildren="Enabled" unCheckedChildren="Disabled" />
