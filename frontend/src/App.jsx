@@ -98,8 +98,20 @@ class App extends Component {
 								padding: 0,
 								margin: 0,
 								minHeight: 280,
+								position: "relative",
 							}}
 						>
+							<div style={{ 
+								position: "absolute", 
+								top: "10px", 
+								right: "10px", 
+								background: "#f0f0f0", 
+								padding: "4px 8px", 
+								borderRadius: "4px",
+								fontSize: "12px"
+							 }}>
+								Last Updated: {new Date().toLocaleString()}
+							</div>
 							{servers?.map(renderServerOverview)}
 							{this.state.selectedKeys.includes("admin") && (
 								<Card title="Admin">
