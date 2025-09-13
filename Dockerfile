@@ -18,10 +18,9 @@ LABEL org.opencontainers.image.source https://github.com/Danielv123/serverManage
 # Open a port in the firewall
 EXPOSE 8080
 
-RUN apk add ipmitool
+RUN apk add ipmitool musl-dev gcc g++ make
 
-# Install build tools and clear npm cache
-RUN apt-get update && apt-get install -y build-essential
+# Clear npm cache and upgrade npm
 RUN npm cache clean -f
 RUN npm install -g npm@latest
 
