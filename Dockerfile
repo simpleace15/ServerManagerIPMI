@@ -20,9 +20,10 @@ EXPOSE 8080
 
 RUN apk add ipmitool musl-dev gcc g++ make
 
-# Clear npm cache and upgrade npm
-RUN npm cache clean -f
-RUN npm install -g npm@latest
+# Clean npm cache and force reinstall
+RUN npm cache clean --force
+RUN rm -rf node_modules package-lock.json
+RUN npm install
 
 WORKDIR /usr/src/app
 
