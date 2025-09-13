@@ -20,6 +20,11 @@ EXPOSE 8080
 
 RUN apk add ipmitool
 
+# Install build tools and clear npm cache
+RUN apt-get update && apt-get install -y build-essential
+RUN npm cache clean -f
+RUN npm install -g npm@latest
+
 WORKDIR /usr/src/app
 
 COPY backend/package*.json ./
