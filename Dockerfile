@@ -1,39 +1,34 @@
-FROM node:14 AS builder
+FROM node:18 AS builder
 
 WORKDIR /usr/src/app
 
-# Add package.json and run npm install
-# Its important to copy in package.json first to avoid caching issues
+# Copy frontend package files and install ALL deps for build (including devDependencies)
 COPY frontend/package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
-# Copy rest of the project and build
+# Copy source and build the frontend
 COPY frontend/ .
 RUN npm run build
 
-FROM node:14-alpine
+FROM node:18-alpine
 
-LABEL org.opencontainers.image.source https://github.com/Danielv123/serverManager
+LABEL org.opencontainers.image.source https://github.com/simpleace15/ServerManagerIPMI
 
-# Open a port in the firewall
 EXPOSE 8080
 
-RUN apk add ipmitool musl-dev gcc g++ make
-
-# Clean npm cache and force reinstall
-RUN npm cache clean --force
-RUN rm -rf node_modules package-lock.json
-RUN npm install
+# Install ipmitool runtime deps
+RUN apk add --no-cache ipmitool musl-dev gcc g++ make
 
 WORKDIR /usr/src/app
 
+# Copy backend package files and install ONLY production deps
 COPY backend/package*.json ./
 RUN npm ci --only=production
 
-# Copy rest of the backend
+# Copy backend source
 COPY backend/src ./src
 
-# Copy our frontend build result
-COPY --from=builder /usr/src/app/build build
+# Copy frontend build from builder
+COPY --from=builder /usr/src/app/build ./build
 
 CMD [ "npm", "start" ]
