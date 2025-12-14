@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/colors": "^4.0.5",
+    "@ant-design/colors": "4.0.5",
     "@ant-design/icons": "^4.8.3",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^11.2.2",
-    "antd": "^4.20.7",
+    "antd": "4.0.0",
     "react": "^17.0.1",
     "react-contexify": "^4.1.1",
     "react-dom": "^17.0.1",
